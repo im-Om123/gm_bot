@@ -1,0 +1,15 @@
+{
+  "labels":[
+    "price_query",
+    "room_count",
+    "kitchen_bathroom",
+    "location_query",
+    "furnishing",
+    "availability",
+    "parking",
+    "property_type",
+    "contact_info",
+    "nearby_facilities"
+  ],
+  "threshold":0.5
+}
