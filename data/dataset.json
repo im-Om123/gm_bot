@@ -1,229 +1,250 @@
 {
   "intents": [
     {
-  "tag": "price_query",
+  "tag": "greeting",
   "patterns": [
-    "yo ghar ko bhada kati ho?",
-    "flat ko price kati xa?",
-    "how much is the rent?",
-    "rent k ho?",
-    "price batauna na",
-    "ghar ko price?",
-    "how much should I pay per month?",
-    "monthly bhada kati parcha?",
-    "yo house ko rate k ho?",
-    "ghar rent ma kati lagcha?",
-    "bhada kasto xa?",
-    "can you tell me the price?",
-    "kati ma cha yo flat?",
-    "ghar sasto cha?",
-    "yo flat ko monthly cost kati ho?",
-    "please tell me the price",
-    "yo place ko bhada kati ho?",
-    "kati lagcha monthly?",
-    "kitna rent cha?",
-    "ghar kitne ka hai?",
-    "what’s the cost of this house?",
-    "ghar rent per month?",
-    "how much to pay for this room?",
-    "yo property kati ko ho?",
-    "flat bhada ma cha?",
-    "ghar kiraya k ho?",
-    "ghar ma kati charge lagcha?",
-    "price tell garnus na",
-    "bhada k ho?",
-    "monthly charge k ho?",
-    "yo ghar kasto rate ko cha?",
-    "flat ko cost batauna",
-    "kitna mahine ka bhada ho?",
-    "yo rent kati dinu parcha?",
-    "flat ko value kati ho?",
-    "yo ghar rent dina milcha?",
-    "monthly bhada po kasto xa?",
-    "estimate price kati parcha?",
-    "yo ghar sasto xa?",
-    "yo ghar ko bhada dherai cha?",
-    "can you give me price info?",
-    "ghar rent ko lagi kati dinu parcha?",
-    "yo flat le kasto charge cha?",
-    "yo place ma kati rent dinu parcha?",
-    "rent information dinus na",
-    "ghar bhada milcha?",
-    "kati dinu parcha mahina ma?",
-    "can you send rent details?",
-    "ghar kasto price ma cha?",
-    "kasto cost lagcha yo house ma?",
-    "yo ghar kati ma cha?"
-  ]
-}
-,
-    {
-  "tag": "room_count",
-  "patterns": [
-    "yo ghar ma kati ota room cha?",
-    "kati ota bedroom cha?",
-    "room number k ho?",
-    "how many rooms are there?",
-    "yo flat ma kati room xa?",
-    "ghar ma total kati room cha?",
-    "can you tell me how many bedrooms?",
-    "room count dinus na",
-    "yo house ma kati ota bedroom cha?",
-    "kati ota sleeping room cha?",
-    "ghar ma kati ota sleeping room cha?",
-    "bedroom kasto cha?",
-    "bedroom xa?",
-    "kitne room hai?",
-    "total bedroom?",
-    "ghar ma room kasto cha?",
-    "room cha ki nai?",
-    "yo flat ma bedroom cha?",
-    "kati bedroom milcha?",
-    "kitna room hai total?",
-    "ghar ma 2 room xa?",
-    "yo ghar 3BHK ho?",
-    "3 ota bedroom cha?",
-    "bedroom info dinus",
-    "room k ho?",
-    "yo house ma kati ota room huncha?",
-    "yo ghar 1BHK ho?",
-    "kati ota room dekhna milcha?",
-    "ghar ma 4 ota room cha?",
-    "how many bedrooms in this flat?",
-    "yo house ma 2 ota room xa?",
-    "kitne room milta hai?",
-    "yo ghar ma 1 ota bedroom cha?",
-    "flat ma room cha?",
-    "ghar ma guest room cha?",
-    "yo house ma single room xa?",
-    "double room ho?",
-    "room availability cha?",
-    "how many rooms in apartment?",
-    "yo ghar ma 5 ota bedroom xa?",
-    "yo ghar 2 bedroom cha?",
-    "1 bedroom milcha?",
-    "ghar 1BHK ho?",
-    "ghar ma 1 ota room matra cha?",
-    "room info please",
-    "kitne bedroom available hain?",
-    "yo flat ma 2 ota bedroom xa?",
-    "ghar ma 3 ota room huncha?",
-    "yo ghar double bedroom cha?",
-    "ghar 3 ota sleeping room cha?",
-    "yo room count confirm garnus"
+    "Hi",
+    "Hello",
+    "Hey",
+    "Good morning",
+    "Good afternoon",
+    "Good evening",
+    "What's up?",
+    "How are you?",
+    "Is anyone there?",
+    "Can you help me?",
+    "Hello there",
+    "Hey there",
+    "Hi bot",
+    "Yo",
+    "Hi, how are you?",
+    "Greetings",
+    "Hi, I need help",
+    "Hello, are you a property bot?",
+    "Hey assistant",
+    "Good day"
   ],
   "responses": [
-    "Yo ghar ma 3 ota bedroom cha.",
-    "It has 3 rooms.",
-    "Total 3 ota room huncha yo ghar ma.",
-    "There are 3 bedrooms in this house.",
-    "Yes, 3 rooms are available."
+    "Hello! How can I assist you with your property needs?",
+    "Hi there! Looking for a room, flat, or house?",
+    "Hey! Need help finding a rental property?",
+    "Good day! I'm here to help you find homes, rooms, or land.",
+    "Hi! You can ask me about rent, location, availability, and more.",
+    "Hello! What kind of property are you searching for?",
+    "Welcome! Let me know what you're looking for.",
+    "Greetings! Feel free to ask me about any house-related query.",
+    "Hey there! I can help you find houses, flats, or land.",
+    "Hi! How can I help you today?"
   ]
-}
-,
+    },
+
+    {
+      "tag": "price_query",
+      "patterns": [
+        "How much is the rent?",
+        "What is the price of this flat?",
+        "Tell me the rent.",
+        "What is the monthly price?",
+        "How much should I pay per month?",
+        "What’s the rate of this house?",
+        "How much rent do I need to pay?",
+        "Can you tell me the price?",
+        "Is this house cheap?",
+        "What is the cost of this property?",
+        "Is the flat available for rent?",
+        "What is the monthly charge?",
+        "Please tell me the price.",
+        "Can you send rent details?",
+        "What’s the cost of this flat?",
+        "What is the rent for this room?",
+        "Can I know the rent?",
+        "What is the estimated monthly cost?",
+        "Is the rent high?",
+        "Tell me the house price.",
+        "How much rent per month?",
+        "What’s the price of this house?",
+        "What is the charge per month?",
+        "What is the value of this flat?",
+        "Is this house available for rent?",
+        "Give me rent information.",
+        "Monthly rent amount?",
+        "Is rent negotiable?",
+        "Tell me price info."
+      ],
+      "responses": [
+        "The rent is Rs. 25,000 per month.",
+        "Monthly rent is Rs. 25,000.",
+        "You need to pay Rs. 25,000 monthly."
+      ]
+    },
+    {
+      "tag": "room_count",
+      "patterns": [
+        "How many rooms are there in this house?",
+        "How many bedrooms are available?",
+        "Total room count?",
+        "How many rooms in the flat?",
+        "What is the number of bedrooms?",
+        "Can you tell me the number of rooms?",
+        "Is there a guest room?",
+        "Is this a 1BHK or 3BHK?",
+        "Are there single or double bedrooms?",
+        "Is there a sleeping room?",
+        "How many sleeping rooms are there?",
+        "Room availability?",
+        "How many rooms in this apartment?",
+        "Does this house have 3 rooms?",
+        "Tell me room info.",
+        "Is this a double bedroom?",
+        "Is this a 2 bedroom house?",
+        "Do you have a 1 bedroom available?",
+        "Does this flat have 2 rooms?",
+        "Is this a 4 bedroom house?"
+      ],
+      "responses": [
+        "This house has 3 bedrooms.",
+        "It has 3 rooms.",
+        "There are total 3 rooms in this house.",
+        "Yes, 3 rooms are available.",
+        "This is a 3-bedroom house."
+      ]
+    },
     {
       "tag": "kitchen_bathroom",
       "patterns": [
-        "kati ota kitchen cha?",
-        "kati bathroom xa?",
-        "yo ghar ma kitchen cha?",
-        "bathroom xa?",
-        "how many kitchen and bathroom?"
+        "How many kitchens and bathrooms?",
+        "Does this house have a kitchen?",
+        "Are bathrooms available?",
+        "Number of bathrooms?",
+        "Is kitchen available?"
       ],
       "responses": [
-        "Yo ghar ma 1 ota kitchen ra 2 ota bathroom cha.",
-        "It has 1 kitchen and 2 bathrooms."
+        "This house has 1 kitchen and 2 bathrooms.",
+        "There is 1 kitchen and 2 bathrooms."
       ]
     },
     {
       "tag": "location_query",
       "patterns": [
-        "yo ghar kahaa cha?",
-        "location k ho?",
-        "where is the house?",
-        "yo property kahan xa?"
+        "Where is this house located?",
+        "What is the location of the property?",
+        "Can you tell me the location?",
+        "Where exactly is this flat?"
       ],
       "responses": [
-        "Yo property Lagankhel, Lalitpur ma cha.",
-        "It is located in Lagankhel, Lalitpur."
+        "This property is located in Lagankhel, Lalitpur.",
+        "It is in Lagankhel, Lalitpur."
       ]
     },
     {
       "tag": "furnishing",
       "patterns": [
-        "yo ghar furnished xa?",
-        "furnishing kasto xa?",
-        "fully furnished ho?",
-        "is the flat furnished?"
+        "Is the house furnished?",
+        "Is the flat fully furnished?",
+        "What kind of furnishing is there?",
+        "Is it a furnished house?"
       ],
       "responses": [
-        "Yes, yo fully furnished ghar ho.",
-        "Yes, the house is fully furnished."
+        "Yes, this is a fully furnished house.",
+        "Yes, the house comes fully furnished."
       ]
     },
     {
       "tag": "availability",
       "patterns": [
-        "ghar available xa?",
-        "can I rent now?",
-        "k yo property available cha?",
-        "yo house ahile available cha?"
+        "Is the house available now?",
+        "Can I rent it now?",
+        "Is this property currently available?",
+        "Is this house available for rent?"
       ],
       "responses": [
-        "Yes, yo property ahile available cha.",
-        "Yes, it is currently available."
+        "Yes, this property is currently available.",
+        "Yes, it is available for rent now."
       ]
     },
     {
       "tag": "parking",
       "patterns": [
-        "parking xa?",
-        "can I park car?",
-        "yo ghar ma parking cha?",
-        "parking available cha?"
+        "Is parking available?",
+        "Can I park my car?",
+        "Does the house have parking?",
+        "Is motorcycle parking allowed?",
+        "How many parking spaces are there?",
+        "Is there a place to park a vehicle?",
+        "Is there a garage?",
+        "Can I park my bike?"
       ],
       "responses": [
-        "Yes, parking facility available cha.",
-        "Yes, you can park your vehicle."
+        "Yes, parking facility is available.",
+        "You can park your vehicle here.",
+        "There is space for car and motorcycle.",
+        "Garage parking is available.",
+        "Sufficient parking space is provided."
       ]
     },
     {
       "tag": "property_type",
       "patterns": [
-        "yo ghar ho ki flat?",
-        "kasto type ko property ho?",
-        "this is land or house?",
-        "apartment ho?"
+        "Is this a house or flat?",
+        "What type of property is this?",
+        "Is this land or a house?",
+        "Is this an apartment?",
+        "What kind of flat is this?",
+        "Is this a duplex?",
+        "Is it a condo or a house?",
+        "Is this suitable for bachelors?"
       ],
       "responses": [
-        "Yo ekta ghar ho, bhada ko lagi.",
-        "This is a house available for rent."
+        "This is a house available for rent.",
+        "It is a well-designed flat.",
+        "This is an apartment near the city center.",
+        "It is a duplex with two floors.",
+        "This property is a condo with modern facilities.",
+        "Yes, it’s a suitable flat for bachelors.",
+        "It is ideal for a small family."
       ]
     },
     {
       "tag": "contact_info",
       "patterns": [
-        "contact number dinus",
-        "kasari contact garne?",
-        "owner ko number dinus",
-        "phone number?"
+        "Please provide the contact number.",
+        "How can I contact the owner?",
+        "Give me the phone number.",
+        "Who should I call?",
+        "How do I contact for rent?",
+        "Can I message the owner?",
+        "What is the owner's contact info?",
+        "Where can I call for details?"
       ],
       "responses": [
         "Please contact 9800000000 for more details.",
-        "Owner lai samparka garna 9800000000 ma call garnus."
+        "You can call the owner at 9800000000.",
+        "Contact number is 9800000000.",
+        "Reach out on WhatsApp at 9800000000.",
+        "You can directly talk to the owner at 9800000000."
       ]
     },
     {
       "tag": "nearby_facilities",
       "patterns": [
-        "yo ghar ko najik k k cha?",
-        "school najik xa?",
-        "market cha?",
-        "nearby hospital cha?"
+        "What facilities are nearby?",
+        "Is there a school near the house?",
+        "Is there a market nearby?",
+        "Any hospital close to the house?",
+        "Is a grocery store nearby?",
+        "Is there a park around?",
+        "How far is the bus stop?",
+        "Is a clinic available near the house?"
       ],
       "responses": [
-        "Yes, school, hospital ra market nearby ma cha.",
-        "Nearby ma sabai basic facility cha."
+        "Yes, school, hospital, and market are all nearby.",
+        "All basic facilities are within walking distance.",
+        "There is a grocery store and pharmacy nearby.",
+        "Bus stop is 5 minutes away.",
+        "There’s a park and playground nearby.",
+        "Clinic and hospital are within 10 minutes reach.",
+        "Nearby market has all essentials.",
+        "This is a well-connected location with public transport."
       ]
     }
   ]
