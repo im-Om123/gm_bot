@@ -148,8 +148,6 @@ def load_and_prepare_data(dataset_path="data/dataset.json"):
     # Ensure the 'data' directory exists
     os.makedirs(os.path.dirname(dataset_path), exist_ok=True)
 
-    # --- Load dataset with robust error handling ---
-    # Now strictly loads from the file. If the file is empty or invalid, it will raise an error.
     try:
         with open(dataset_path, "r", encoding="utf-8") as f:
             file_content = f.read()
@@ -168,8 +166,7 @@ def load_and_prepare_data(dataset_path="data/dataset.json"):
             "Please ensure you have a valid dataset.json file in the 'data' directory."
         )
 
-    all_intents_data = data # Store the full intents data for response retrieval
-
+    all_intents_data = data 
     sentences = []
     labels = []
 
@@ -177,8 +174,6 @@ def load_and_prepare_data(dataset_path="data/dataset.json"):
         for pattern in intent["patterns"]:
             sentences.append(pattern.lower())
             labels.append(intent["tag"])
-
-    # === Tokenize and build vocabulary ===
     all_words_list = []
     for sentence in sentences:
         tokens = tokenizer.tokenize(sentence)

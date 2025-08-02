@@ -113,15 +113,15 @@ def predict_intent(text):
         
         return intent_tag, max_prob.item()
 
-# --- Main Chatbot Loop ---
 def run_chatbot():
     print("PropertyBot: Hi! Ask me about house rent, location, or details. Type 'quit' to exit.")
     while True:
         user_input = input("You: ")
-        if user_input.lower() in ["exit", "quit"]:
+        if user_input.lower() in ["exit", "quit","bye","Bye"]:
             print("PropertyBot: Goodbye!")
             break
-        
+        else:
+            print("see you again !")
         intent, confidence = predict_intent(user_input)
         
         if confidence > confidence_threshold:
@@ -132,15 +132,7 @@ def run_chatbot():
             # If not confident enough
             print("PropertyBot: I didn't get that. Could you please rephrase or ask something else?")
 
-# --- Main Execution Block ---
 if __name__ == "__main__":
-    # First, ensure data is prepared (this will also load/create dataset.json)
-    # The load_and_prepare_data function in data_preparation.py is called upon import,
-    # so we just need to ensure the module is imported.
-    # This also populates the global variables like word2idx, le, max_len, etc.
-
-    # Then, load the trained model and other components for the chatbot
+    
     load_chatbot_components()
-
-    # Finally, run the interactive chatbot
     run_chatbot()
