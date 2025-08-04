@@ -1,51 +1,54 @@
+# main.py
 import torch
 import json
 import os
 import sys
 import random
-import numpy as np # Import numpy for le.classes_ conversion
+import numpy as np
+from sklearn.preprocessing import LabelEncoder
 
 # --- Force PyTorch to use CPU by hiding CUDA devices ---
-# This must be set BEFORE importing torch
+# This ensures it runs on any machine, even without a GPU.
 os.environ['CUDA_VISIBLE_DEVICES'] = ''
 os.environ['NVIDIA_VISIBLE_DEVICES'] = ''
 # ---------------------------------------------------
 
 # Append parent directory to sys.path to allow imports from 'scripts'
-# This assumes main.py is in 'your_project_root/scripts/'
-# If main.py is in 'your_project_root/', remove this line or adjust path.
+# IMPORTANT: Adjust this path if your directory structure is different.
+# If main.py is at the root of your project, you might not need this.
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# Import necessary components from data_preparation and model
+# Import necessary components from your scripts
 from scripts.data_preparation import encode_sentence, pad_sequence, stem, tokenizer, le, all_intents_data
 from scripts.model import IntentModel
-from sklearn.preprocessing import LabelEncoder # Explicitly import LabelEncoder for loading
 
 # Define paths
 MODEL_FILE = "models/intent_model.pth"
 DATASET_FILE = "data/dataset.json"
+CONFIDENCE_THRESHOLD = 0.75 # Adjust this value as needed
 
-# Ensure models directory exists (though train.py should create it)
-os.makedirs("models", exist_ok=True)
-
-# --- Load Model and Data for Inference ---
+# --- Global Variables for Chatbot Components (Loaded ONCE) ---
+# These will be populated in the global scope when the script is first run by Flask.
 model = None
 word2idx = {}
 max_len = 0
 responses = {}
-confidence_threshold = 0.75 # Adjust this value as needed
-loaded_le = LabelEncoder() # Create a new LabelEncoder instance for loading
+loaded_le = LabelEncoder()
 
-def load_chatbot_components():
-    global model, word2idx, max_len, responses, loaded_le, all_intents_data
+# --- Load all chatbot components at the start of the application ---
+def initialize_chatbot():
+    """
+    Loads the model, data, and other necessary components once.
+    This function is called immediately when this script is imported.
+    """
+    global model, word2idx, max_len, responses, loaded_le
 
     print(f"Loading chatbot components from {MODEL_FILE} and {DATASET_FILE}...")
     try:
         # Load model data
-        # Map location to CPU to avoid loading CUDA tensors on a non-CUDA machine
         model_data = torch.load(MODEL_FILE, map_location=torch.device('cpu'))
         word2idx = model_data["word2idx"]
-        loaded_le.classes_ = np.array(model_data["le_classes"]) # Load classes back into LabelEncoder
+        loaded_le.classes_ = np.array(model_data["le_classes"])
         max_len = model_data["max_len"]
         embed_dim = model_data["embed_dim"]
         hidden_dim = model_data["hidden_dim"]
@@ -56,14 +59,13 @@ def load_chatbot_components():
         model.load_state_dict(model_data["model_state"])
         model.eval() # Set model to evaluation mode
 
-        # Load responses from the dataset file
-        # Use the all_intents_data loaded by data_preparation.py
-        if all_intents_data:
+        # Load responses
+        # The all_intents_data should be a dictionary with an 'intents' key
+        if 'intents' in all_intents_data:
             responses = {intent['tag']: intent.get('responses', ["Sorry, I don't understand."])
                          for intent in all_intents_data["intents"]}
         else:
-            # Fallback if all_intents_data somehow wasn't loaded (shouldn't happen with current setup)
-            print("Warning: all_intents_data not available. Attempting to load responses directly from dataset.json.")
+            print("Warning: 'intents' key not found in all_intents_data. Using fallback.")
             with open(DATASET_FILE, "r", encoding="utf-8") as f:
                 temp_data = json.load(f)
                 responses = {intent['tag']: intent.get('responses', ["Sorry, I don't understand."])
@@ -71,68 +73,57 @@ def load_chatbot_components():
 
         print("Chatbot components loaded successfully.")
 
-    except FileNotFoundError:
-        print(f"Error: Model file '{MODEL_FILE}' or dataset file '{DATASET_FILE}' not found.")
-        print("Please ensure you have trained the model first by running `python scripts/train.py`.")
-        sys.exit(1) # Exit if essential files are missing
+    except FileNotFoundError as e:
+        print(f"Error: Model file or dataset file not found: {e}")
+        print("Please ensure you have trained the model first.")
+        model = None # Set model to None to handle this gracefully
     except Exception as e:
         print(f"An error occurred while loading chatbot components: {e}")
-        sys.exit(1)
+        model = None # Set model to None to handle this gracefully
 
-def predict_intent(text):
-    """Predicts the intent of the given text."""
-    # Ensure word2idx and max_len are available
-    if not word2idx or max_len == 0:
-        print("Error: Chatbot components not fully loaded. Cannot predict intent.")
-        sys.exit(1)
+# Call the initialization function immediately when the module is imported
+initialize_chatbot()
 
-    # Tokenize and stem the input sentence
-    tokens = tokenizer.tokenize(text.lower())
-    stemmed_tokens = [stem(token) for token in tokens]
+# --- Main Function for Flask App ---
+def get_bot_response(user_input):
+    """
+    Predicts the intent of the user's message and returns a response.
+    This function is designed to be called by the Flask application.
+    """
+    # Check if the model was loaded successfully.
+    if model is None:
+        return "Sorry, the bot is currently unavailable due to a server configuration error."
 
-    # Convert tokens to indices using the loaded word2idx
-    encoded_seq = [word2idx.get(token, 0) for token in stemmed_tokens]
+    try:
+        # Tokenize and stem the input sentence
+        tokens = tokenizer.tokenize(user_input.lower())
+        stemmed_tokens = [stem(token) for token in tokens]
 
-    # Pad the sequence to max_len
-    padded_seq = pad_sequence(encoded_seq, max_len)
-    
-    # Convert to PyTorch tensor and reshape for batching (batch_size=1)
-    input_tensor = torch.tensor([padded_seq], dtype=torch.long).to(torch.device('cpu'))
-    
-    with torch.no_grad(): # Disable gradient calculation for inference
-        output = model(input_tensor)
-        
-        # Get probabilities by applying softmax
-        probabilities = torch.softmax(output, dim=1)
-        
-        # Get the predicted class index and its probability
-        max_prob, predicted_index = torch.max(probabilities, dim=1)
-        
-        # Convert predicted index back to original tag string using the loaded_le
-        intent_tag = loaded_le.inverse_transform([predicted_index.item()])[0]
-        
-        return intent_tag, max_prob.item()
+        # Convert tokens to indices using the loaded word2idx
+        encoded_seq = [word2idx.get(token, 0) for token in stemmed_tokens]
 
-def run_chatbot():
-    print("PropertyBot: Hi! Ask me about house rent, location, or details. Type 'quit' to exit.")
-    while True:
-        user_input = input("You: ")
-        if user_input.lower() in ["exit", "quit","bye","Bye"]:
-            print("PropertyBot: Goodbye!")
-            break
-        else:
-            print("see you again !")
-        intent, confidence = predict_intent(user_input)
-        
-        if confidence > confidence_threshold:
-            # If confident, pick a random response for the predicted intent
-            response_options = responses.get(intent, ["I didn't get that."])
-            print("PropertyBot:", random.choice(response_options))
+        # Pad the sequence to max_len
+        padded_seq = pad_sequence(encoded_seq, max_len)
+
+        # Convert to PyTorch tensor and reshape for batching (batch_size=1)
+        input_tensor = torch.tensor([padded_seq], dtype=torch.long).to(torch.device('cpu'))
+
+        with torch.no_grad(): # Disable gradient calculation for inference
+            output = model(input_tensor)
+            probabilities = torch.softmax(output, dim=1)
+            max_prob, predicted_index = torch.max(probabilities, dim=1)
+            intent_tag = loaded_le.inverse_transform([predicted_index.item()])[0]
+
+        if max_prob.item() > CONFIDENCE_THRESHOLD:
+            # Get a random response for the predicted intent
+            response_options = responses.get(intent_tag, ["I didn't get that."])
+            return random.choice(response_options)
         else:
             # If not confident enough
-            print("PropertyBot: I didn't get that. Could you please rephrase or ask something else?")
+            return "I didn't get that. Could you please rephrase or ask something else?"
 
-if __name__ == "__main__":
-    
-    load_chatbot_components()
-    run_chatbot()
+    except Exception as e:
+        # Catch any unexpected errors during the prediction process
+        print(f"An error occurred during bot response inference: {e}")
+        return "I'm sorry, I'm having trouble understanding that. Could you please rephrase?"
+
